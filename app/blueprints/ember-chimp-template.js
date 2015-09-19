@@ -1,0 +1,1 @@
+export { default } from 'ember-chimp/blueprints/ember-chimp-template';

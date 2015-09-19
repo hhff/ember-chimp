@@ -1,0 +1,43 @@
+@import url(http://fonts.googleapis.com/css?family=Karla:700,400,400italic,700italic|Montserrat:400,700);
+
+header {
+  text-align: center;
+}
+
+form.ember-chimp {
+  width: 500px;
+  text-align: left;
+  margin: auto;
+  padding: 20px;
+  background-color: aliceblue;
+}
+
+.ember-chimp label {
+  display: block;
+  font-family: 'Montserrat', sans-serif;
+  text-transform: uppercase;
+  padding-bottom: 20px;
+}
+
+.ember-chimp input {
+  font-family: 'Karla', sans-serif;
+  padding: 20px;
+  font-size: 30px;
+  border: none;
+}
+
+.ember-chimp .chimp-says {
+  font-family: 'Karla', sans-serif;
+  padding: 20px;
+  margin-top: 20px;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+}
+
+.ember-chimp.success .chimp-says {
+  background-color: palegreen;
+}
+
+.ember-chimp.error .chimp-says {
+  background-color: antiquewhite;
+}
