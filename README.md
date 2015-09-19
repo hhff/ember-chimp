@@ -1,7 +1,6 @@
-# ember-chimp
+# Ember Chimp
 [![Build Status](https://travis-ci.org/hhff/ember-chimp.svg)](https://travis-ci.org/hhff/ember-chimp)
 [![npm version](https://badge.fury.io/js/ember-chimp.svg)](http://badge.fury.io/js/ember-chimp)
-[![Ember Observer Score](http://emberobserver.com/badges/ember-chimp.svg)](http://emberobserver.com/addons/ember-chimp)
 
 A simple Ember component for nicer, ajax style Mailchimp list signup forms.
 
