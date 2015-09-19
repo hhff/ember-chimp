@@ -161,8 +161,10 @@ The `ember-chimp` component theoretically also posts other fields within the
 ```html
 <!-- app/templates/components/ember-chimp -->
 
-<label {{bindAttr for="emailInput.elementId"}}>{{label}}</label>
-{{input placeholder=placeholder viewName="emailInput" value=value type="email" name="EMAIL"}}
+<label>
+  <div class="label-text">{{label}}</div>
+  {{input placeholder=placeholder viewName="emailInput" value=value type="email" name="EMAIL"}}
+</label>
 
 {{input value=firstname name="FIRSTNAME"}}
 {{input value=lastname name="LASTNAME"}}

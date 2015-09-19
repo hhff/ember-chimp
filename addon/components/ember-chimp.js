@@ -1,9 +1,7 @@
 import Ember from 'ember';
 import ajax from 'ic-ajax';
-import layout from '../templates/components/ember-chimp';
 
 export default Ember.Component.extend({
-  layout: layout,
   chimpState: 'idle',
   chimpSays: null,
   action: null,
