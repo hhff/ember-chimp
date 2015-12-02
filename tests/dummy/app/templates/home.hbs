@@ -1,12 +1,25 @@
-<header>
-  <h1>Ember Chimp</h1>
-</header>
+<div class='container'>
+  <header>
+    <h1>Ember Chimp</h1>
+    <h5>A Simple, Ajax Powered Mailchimp Form Component for the Ember CLI.</h5>
+  </header>
 
-<section>
-  {{ember-chimp label="Ember Chimp Input" 
-                placeholder="Email" 
-                formAction="//computer.us11.list-manage.com/subscribe/post?u=6e62b74d002f42a0e5350892e&amp;id=4e7effa6bd"
-                buttonText="Submit"
-                loadingText="Loading"
-                value="testing-123@gmail.com"}}
-</section>
+  <section>
+    {{ember-chimp label="Email Address" 
+                  placeholder="Your Email Here" 
+                  formAction="//computer.us11.list-manage.com/subscribe/post?u=6e62b74d002f42a0e5350892e&amp;id=4e7effa6bd"
+                  buttonText="Submit"
+                  loadingText="Loading"}}
+  </section>
+
+  <footer>
+    <p>Usage Instructions at <a href="https://github.com/hhff/ember-chimp">Github</a></p> 
+
+    <!-- Place this tag where you want the button to render. -->
+    <a class="github-button" href="https://github.com/hhff/ember-chimp" data-icon="octicon-star" data-style="mega" data-count-href="/hhff/ember-chimp/stargazers" data-count-api="/repos/hhff/ember-chimp#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star hhff/ember-chimp on GitHub">Star</a>
+
+    <!-- Place this tag right after the last button or just before your close body tag. -->
+    <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+  </footer>
+</div>
+

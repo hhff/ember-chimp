@@ -1,18 +1,32 @@
 import Ember from 'ember';
-import ajax from 'ic-ajax';
 
-export default Ember.Component.extend({
+const {
+  get,
+  set,
+  inject,
+  computed,
+  Component
+} = Ember;
+
+function endsWith(string, suffix) {
+  return string.indexOf(suffix, string.length - suffix.length) !== -1;
+}
+  
+export default Component.extend({
+  classNames: 'ember-chimp',
+  classNameBindings: ['chimpState'],
+  attributeBindings: ['novalidate'],
+  novalidate: true,
+  tagName: "form",
+
+  ajax: inject.service(),
+
   chimpState: 'idle',
   chimpSays: null,
   action: null,
   value: "",
   buttonText: "Submit",
   loadingText: "Loading...",
-  classNames: 'ember-chimp',
-  classNameBindings: ['chimpState'],
-  tagName: "form",
-  attributeBindings: ['novalidate'],
-  novalidate: true,
 
   responses: {
     success: 'Almost finished... We need to confirm your email address. To complete the subscription process, please click the link in the email we just sent you.',
@@ -21,14 +35,7 @@ export default Ember.Component.extend({
     attemptsError: "Too many subscribe attempts for this email address. Please try again in about 5 minutes.",
   },
 
-  isLoading: Ember.computed('chimpState', function() {
-    return this.get('chimpState') === 'loading' ? true : false;
-  }),
-
-  valueDidChange: Ember.observer('value', function() {
-    this.set('chimpState', 'idle');
-    this.set('chimpSays', null);
-  }),
+  isLoading: computed.equal('chimpState', 'loading'),
 
   _buildData() {
     const data = {};
@@ -43,21 +50,23 @@ export default Ember.Component.extend({
     return data;
   },
 
-  endsWith(string, suffix) {
-    return string.indexOf(suffix, string.length - suffix.length) !== -1;
+  actions: {
+    valueDidChange() {
+      set(this, 'chimpState', 'idle');
+      set(this, 'chimpSays', null);
+    }
   },
 
   submit(e) {
     e.preventDefault();
     let msg;
+    
+    if (get(this, 'value').length) {
+      set(this, 'chimpState', 'loading');
+      set(this, 'chimpSays', get(this, 'loadingText'));
 
-    if (this.get('value').length) {
-      this.set('chimpState', 'loading');
-      this.set('chimpSays', this.get('loadingText'));
-
-      let _this      = this;
-      let formAction = this.get('formAction');
-      let data       = this._buildData();
+      let formAction = get(this, 'formAction'),
+          data = this._buildData();
 
       if (!formAction) { 
         throw new Error("Ember Chimp: Please pass your Mailchimp list formAction to the ember-chimp component"); 
@@ -65,41 +74,37 @@ export default Ember.Component.extend({
         formAction = formAction.replace('/post?', '/post-json?').concat('&c=?');
       }
 
-      const request = ajax({
-        url: formAction,
+      let request = get(this, 'ajax').request(formAction, {
         data: data,
         dataType: 'jsonp'
       });
-      
-      request.then(
-        (response) => {
-          if (response.result === 'success') {
-            _this.set('value', null);
-            msg = this.get('responses.success');
+
+      request.then(response => {
+        if (response.result === 'success') {
+          this.set('value', null);
+          msg = this.get('responses.success');
+        } else {
+          if (!isNaN(parseInt(response.msg.charAt(0)))) {
+            msg = this.get('responses.invalidError');
+          } else if (endsWith(response.msg, "(#6592)")) {
+            msg = this.get('responses.attemptsError');
           } else {
-            if (!isNaN(parseInt(response.msg.charAt(0)))) {
-              msg = this.get('responses.invalidError');
-            } else if (this.endsWith(response.msg, "(#6592)")) {
-              msg = this.get('responses.attemptsError');
-            } else {
-              msg = this.get('responses.error');
-            }
+            msg = this.get('responses.error');
           }
-          _this.set('chimpState', response.result);
-          _this.set('chimpSays', msg);
-        }, () => {
-          let errorMessage = this.get('responses.error');
-          _this.set('chimpSays', errorMessage);
-          _this.set('chimpState', 'error');
         }
-      );
+
+        this.set('chimpState', response.result);
+        this.set('chimpSays', msg);
+      });
+        
+      request.catch(() => {
+        this.set('chimpSays', get(this, 'responses.error'));
+        this.set('chimpState', 'error');
+      });
       
-      if (this.get('action')) {
-        this.sendAction('action', request);
-      }
+      if (this.get('action')) { this.sendAction('action', request); }
     } else {
-      msg = this.get('responses.invalidError');
-      this.set('chimpSays', msg);
+      this.set('chimpSays', get(this, 'responses.invalidError'));
       this.set('chimpState', 'error');
     }
   }

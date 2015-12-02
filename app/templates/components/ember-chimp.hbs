@@ -1,6 +1,6 @@
 <label>
   <div class="label-text">{{label}}</div>
-  {{input placeholder=placeholder viewName="emailInput" value=value type="email" name="EMAIL"}}
+  {{input key-press="valueDidChange" placeholder=placeholder value=value type="email" name="EMAIL"}}
 </label>
-<button type="submit">{{if isLoading loadingText buttonText}}</button>
 <div class="chimp-says">{{chimpSays}}</div>
+<button type="submit">{{if isLoading loadingText buttonText}}</button>

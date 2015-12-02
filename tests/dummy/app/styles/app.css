@@ -1,43 +1,117 @@
-@import url(http://fonts.googleapis.com/css?family=Karla:700,400,400italic,700italic|Montserrat:400,700);
+@import url(http://fonts.googleapis.com/css?family=Karla:700,400,400italic,700italic);
 
-header {
-  text-align: center;
-}
-
-form.ember-chimp {
+div.container {
   width: 500px;
-  text-align: left;
-  margin: auto;
-  padding: 20px;
-  background-color: aliceblue;
+  margin: 50px 0 0 100px;
 }
 
-.ember-chimp label {
-  display: block;
-  font-family: 'Montserrat', sans-serif;
-  text-transform: uppercase;
-  padding-bottom: 20px;
+section {
+  width: 500px;
 }
 
-.ember-chimp input {
+h1 {
   font-family: 'Karla', sans-serif;
-  padding: 20px;
+  font-weight: 700;
+  color: #4A4A4A;
+  font-size: 120px;
+  margin-top: 0;
+  margin-bottom: 30px;
+}
+
+h5 {
+  font-family: 'Karla', sans-serif;
+  font-weight: 500;
+  color: #4A4A4A;
   font-size: 30px;
-  border: none;
+  margin-top: 0;
+  line-height: 55px;
 }
 
-.ember-chimp .chimp-says {
+p {
   font-family: 'Karla', sans-serif;
-  padding: 20px;
+  font-weight: 500;
+  color: #4A4A4A;
+  font-size: 20px;
+  line-height: 55px;
+}
+
+a {
+  color: #156ACE;
+}
+
+*:focus {
+  outline: 0;
+}
+
+form.ember-chimp label {
+  display: block;
+  font-family: 'Karla', sans-serif;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #156ACE;
+  font-size: 18px;
+}
+
+form.ember-chimp input {
+  font-family: 'Karla', sans-serif;
+  margin: 20px 0 0 0;
+  border-radius: 5px;
+  padding: 16px;
+  font-size: 24px;
+  font-weight: 700;
+  border: none;
+  background-color: #F0F0F0;
+  width: 100%;
+  box-sizing: border-box;
+  border: 3px solid transparent;
+  color: #4A4A4A;
+  transition: all 150ms ease-in-out;
+}
+
+form.ember-chimp input:focus {
+  background-color: white;
+  border: 3px solid #156ACE;
+  box-shadow: 0px 7px 10px lightgrey;
+}
+
+form.ember-chimp button {
+  font-family: 'Karla', sans-serif;
+  width: 100%;
+  font-size: 24px;
+  font-weight: 700;
+  background-color: #27DD95;
+  color: white;
+  padding: 16px;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 8px 0 0 #38B684;
+  cursor: pointer;
+  transition: all 150ms ease-in-out;
+  margin: 20px 0 0 0;
+}
+
+form.ember-chimp button:hover {
+  box-shadow: 0 0 0 0 #38B684;
+  transform: translateY(8px);
+}
+
+form.ember-chimp .chimp-says {
+  font-family: 'Karla', sans-serif;
   margin-top: 20px;
   line-height: 24px;
   letter-spacing: 0.5px;
+  max-height: 0px;
+  transition: max-height 150ms ease-in-out, color 150ms ease-in-out 150ms;
+  overflow: hidden;
+  color: transparent;
 }
 
 .ember-chimp.success .chimp-says {
-  background-color: palegreen;
+  max-height: 100px;
+  color: #38B684;
 }
 
 .ember-chimp.error .chimp-says {
-  background-color: antiquewhite;
+  color: #F64D62;
+  max-height: 100px;
 }
