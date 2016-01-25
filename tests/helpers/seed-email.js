@@ -1,4 +1,6 @@
+import faker from 'faker';
+
 export default function seedEmail() {
-  let seed = (new Date()).valueOf().toString();
-  return 'ember-chimp-'+seed+'@example.com';
+  let seed = (faker.name.firstName() + faker.name.lastName()).replace(' ', '-');
+  return `${seed}@sanctuarycomputer.com`;
 }

@@ -46,7 +46,7 @@ test('it works', function(assert) {
 
   return wait()
     .then(() => {
-      // Component is in 'loading' state - using wait() should mean we get to success or error
-      // when this callback is fired.
+      assert.ok(this.$('form').hasClass('success'));
+      assert.ok(this.$('form .chimp-says').text().length > 0);
     });
 });
