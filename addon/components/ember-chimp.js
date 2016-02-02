@@ -3,7 +3,7 @@ import Ember from 'ember';
 const {
   get,
   set,
-  inject,
+  inject: { service },
   computed,
   Component
 } = Ember;
@@ -19,7 +19,7 @@ export default Component.extend({
   novalidate: true,
   tagName: "form",
 
-  ajax: inject.service(),
+  ajax: service(),
 
   chimpState: 'idle',
   chimpSays: null,
@@ -39,7 +39,7 @@ export default Component.extend({
 
   _buildData() {
     const data = {};
-    
+
     let formData = this.$().serializeArray();
     let item;
 
