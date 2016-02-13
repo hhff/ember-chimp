@@ -5,6 +5,8 @@
 A simple Ember CLI Component for integrating a Mailchimp List signup for tighly
 with your application.
 
+![Ember Chimp](https://raw.githubusercontent.com/hhff/ember-chimp/gh-pages/assets/share.jpg)
+
 ## Installation
 
 `ember install ember-chimp`
