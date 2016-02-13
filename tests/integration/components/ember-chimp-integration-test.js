@@ -2,27 +2,11 @@ import { moduleForComponent, test } from 'ember-qunit';
 import wait from 'ember-test-helpers/wait';
 import seedEmail from '../../helpers/seed-email';
 import hbs from 'htmlbars-inline-precompile';
-import Ember from 'ember';
+
+import SuccessAjaxServiceStub from '../../stubs/success-ember-chimp-ajax-stub';
+import ErrorAjaxServiceStub from '../../stubs/error-ember-chimp-ajax-stub';
 
 const testingFormAction = "//computer.us11.list-manage.com/subscribe/post?u=6e62b74d002f42a0e5350892e&amp;id=4e7effa6bd";
-
-const SuccessAjaxServiceStub = Ember.Service.extend({
-  request() {
-    return Ember.RSVP.resolve({
-      msg: "Almost finished... We need to confirm your email address. To complete the subscription process, please click the link in the email we just sent you.",
-      result: "success"
-    });
-  }
-});
-
-const ErrorAjaxServiceStub = Ember.Service.extend({
-  request() {
-    return Ember.RSVP.resolve({
-      msg: "0 - Please enter a value",
-      result: "error"
-    });
-  }
-});
 
 moduleForComponent('ember-chimp', 'Integration | Component | chimp input', {
   integration: true,
