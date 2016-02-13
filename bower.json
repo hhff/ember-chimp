@@ -12,7 +12,7 @@
     "jquery": "1.11.3",
     "loader.js": "ember-cli/loader.js#3.4.0",
     "qunit": "~1.20.0",
-    "babel-polyfill": "6.5.0",
+    "babel-polyfill": "~0.0.1",
     "Faker": "~3.0.1"
   }
 }
