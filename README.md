@@ -1,11 +1,11 @@
+![Ember Chimp](https://raw.githubusercontent.com/hhff/ember-chimp/gh-pages/assets/share.jpg)
+
 # Ember Chimp
 [![Build Status](https://travis-ci.org/hhff/ember-chimp.svg)](https://travis-ci.org/hhff/ember-chimp)
 [![npm version](https://badge.fury.io/js/ember-chimp.svg)](http://badge.fury.io/js/ember-chimp)
 
 A simple Ember CLI Component for integrating a Mailchimp List signup for tighly
 with your application.
-
-![Ember Chimp](https://raw.githubusercontent.com/hhff/ember-chimp/gh-pages/assets/share.jpg)
 
 ## Installation
 
