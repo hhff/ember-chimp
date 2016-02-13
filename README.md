@@ -25,6 +25,8 @@ like so:
 
 You can find this form action here:
 
+![Form Action Example](https://raw.githubusercontent.com/hhff/ember-chimp/master/form-action-example.jpg)
+
 **Important:** This lib uses Babel to transpile ES2015.  Some mobile browsers
 will throw an error unless the Babel Browser Polyfill is included in your
 `ember-cli-build.js`.
