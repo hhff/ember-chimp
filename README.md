@@ -2,11 +2,16 @@
 [![Build Status](https://travis-ci.org/hhff/ember-chimp.svg)](https://travis-ci.org/hhff/ember-chimp)
 [![npm version](https://badge.fury.io/js/ember-chimp.svg)](http://badge.fury.io/js/ember-chimp)
 
-A simple Ember component for nicer, ajax style Mailchimp list signup forms.
+A simple Ember CLI Component for integrating a Mailchimp List signup for tighly
+with your application.
 
 ## Installation
 
 `ember install ember-chimp`
+
+**Important:** Ember Chimp requires [Ember Ajax](https://github.com/ember-cli/ember-ajax) 
+to be available to the component to work out of the box. If you need to construct 
+your Ajax request differently, please see **Overriding makeRequest** below.
 
 ## Basic Usage
 
@@ -18,12 +23,11 @@ like so:
 {{ember-chimp formAction="//your.mailchimp.form.action"}}
 ```
 
-**Note:** Like all attributes in Ember, this can be dynamic.  Use a controller
-variable to switch list URL dynamically, such as a i18n `locale` based list.
+You can find this form action here:
 
 **Important:** This lib uses Babel to transpile ES2015.  Some mobile browsers
 will throw an error unless the Babel Browser Polyfill is included in your
-`Brocfile`.  There isn't currently a standard way to do this.
+`ember-cli-build.js`.
 
 ## Advanced Usage
 
@@ -38,7 +42,7 @@ The `ember-chimp` component is built to serve a wide variety of use cases:
 ```
 
 Optionally pass a `label` and `placeholder` attribute.  They work as you'd
-expect.  The label is always `for` the email input.
+expect.  The label is always for the email input.
 
 * **buttonText & loadingText**
 
@@ -51,10 +55,11 @@ expect.  The label is always `for` the email input.
 The `buttonText` attr is the text on the submit button.  This changes to
 `loadingText` on submit.
 
-**Note:** `loadingText` also populates the `.chimp-says` div when loading.  To
-hide that text, you can use the `.loading` chimpState className, like below.
+**Note:** Out of convenience, the `loadingText` also populates the `.chimp-says` 
+div when loading. To hide that text, you can use the `.loading` chimpState 
+className, like below.
 
-* **Custom & Dynamic Responses**
+* **Customized Responses**
 
 In your `controller`:
 
@@ -72,9 +77,6 @@ Then in that controller's template:
 {{ember-chimp formAction="//your.mailchimp.form.action"
               responses=emberChimpResponses}}"
 ```
-
-**Note:** This can be used alongside your Internationalization plugin to show
-responses for your `locale`.
 
 * **chimpState Class Name**
 
@@ -103,7 +105,29 @@ responses for your `locale`.
 The `ember-chimp` component can have the `success`, `error`, `idle` and
 `loading` classNames, depending on it's state.
 
-You can use these classes for smooth CSS transitions between states.
+* **Overriding makeRequest**
+
+In the case that you can't use Ember Ajax, or you need to customize
+the actual request details, you can do that by overriding the `makeRequest`
+method on the Component.
+
+For example, to use [Ember CLI IC Ajax](https://github.com/rwjblue/ember-cli-ic-ajax)
+with Ember Chimp, you'd do something like this:
+
+```js
+import EmberChimp from 'ember-chimp/components/ember-chimp';
+import ajax from 'ic-ajax';
+
+exports default EmberChimp.extend({
+  makeRequest(formAction) {
+    return ajax({
+      url: formAction,
+      data: this._buildData(),
+      dataType: 'jsonp'
+    });  
+  }
+});
+```
 
 * **ember-chimp-template Generator**
 
@@ -124,8 +148,8 @@ like to use native browser validation, pass `false`.
 
 * **Bubbling Action**
 
-Pass an `action` name to the `ember-chimp` component to allow other parts of
-your application to be aware of the component's status.
+Pass a `didSubmitAction` name to the `ember-chimp` component to allow other 
+parts of your application to be aware of the component's status.
 
 ```html
 {{ember-chimp formAction="//your.mailchimp.form.action"
@@ -137,17 +161,15 @@ Then in your `controller` or `route`:
 ```js
 actions: {
   emberChimpDidSubmit(promise) {
-    promise.then(
-      (response) => {
-        if (response.result === 'success') {  
-          console.log("Ember Chimp submitted Successfully!");
-        } else {
-          console.log("Ember Chimp error message:" + response.msg);
-        }
-      }, () => {
-        console.log("Ember Chimp had an Ajax Error.");
-      }     
-    );
+    promise
+    .then(response => {
+      if (response.result === 'success') {  
+        console.log("Ember Chimp submitted Successfully!");
+      } else {
+        console.log("Ember Chimp error message:" + response.msg);
+      }
+    })
+    .catch(error => console.log("Ember Chimp had an Ajax Error."));
   }
 }
 ```
@@ -161,16 +183,21 @@ The `ember-chimp` component theoretically also posts other fields within the
 ```html
 <!-- app/templates/components/ember-chimp -->
 
+
 <label>
   <div class="label-text">{{label}}</div>
-  {{input placeholder=placeholder viewName="emailInput" value=value type="email" name="EMAIL"}}
+  {{input key-press="valueDidChange" 
+          placeholder=placeholder 
+          value=value 
+          type="email" 
+          name="EMAIL"}}
 </label>
 
 {{input value=firstname name="FIRSTNAME"}}
 {{input value=lastname name="LASTNAME"}}
 
-<button type="submit">{{if isLoading loadingText buttonText}}</button>
 <div class="chimp-says">{{chimpSays}}</div>
+<button type="submit">{{if isLoading loadingText buttonText}}</button>
 ```
 
 The data payload with be serialized like so:

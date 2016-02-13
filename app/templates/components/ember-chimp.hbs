@@ -1,6 +1,10 @@
 <label>
   <div class="label-text">{{label}}</div>
-  {{input key-press="valueDidChange" placeholder=placeholder value=value type="email" name="EMAIL"}}
+  {{input key-press="valueDidChange" 
+          placeholder=placeholder 
+          value=value 
+          type="email" 
+          name="EMAIL"}}
 </label>
 <div class="chimp-says">{{chimpSays}}</div>
 <button type="submit">{{if isLoading loadingText buttonText}}</button>
