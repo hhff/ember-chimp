@@ -81,15 +81,9 @@ export default Component.extend({
       chimpState: 'loading',
       chimpSays: get(this, 'loadingText')
     });
-
+    
     let request = this.makeRequest(formAction)
-      .then(response => {
-        if (response.result === 'success') { this.set('value', ''); }
-        this.setProperties({
-          chimpState: response.result,
-          chimpSays:  this._messageForResponse(response)
-        });
-      })
+      .then(response => this.handleResponse(response))
       .catch(() => this._triggerInvalid());
 
     if (this.get('didSubmitAction')) { this.sendAction('didSubmitAction', request); }
@@ -109,6 +103,22 @@ export default Component.extend({
     return get(this, 'ajax').request(formAction, {
       data: this._buildData(),
       dataType: 'jsonp'
+    });
+  },
+
+  /**
+    An overridable hook for customizing the behavior of Ember Chimp
+    when the request returns successfully.
+
+    @method handleResponse
+    @param {Object} response The response returned from Mailchimp.
+  */
+  handleResponse(response) {
+    if (this.isDestroyed) { return; }
+    if (response.result === 'success') { this.set('value', ''); }
+    this.setProperties({
+      chimpState: response.result,
+      chimpSays:  this._messageForResponse(response)
     });
   },
 
@@ -135,6 +145,7 @@ export default Component.extend({
     @private
   */
   _triggerInvalid() {
+    if (this.isDestroyed) { return; }
     this.setProperties({
       chimpSays:  get(this, 'responses.invalidError'),
       chimpState: 'error'
