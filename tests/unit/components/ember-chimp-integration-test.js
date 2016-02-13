@@ -7,7 +7,6 @@ moduleForComponent('ember-chimp', 'Integration | Component | chimp input', {
   integration: true
 });
 
-/*
 test('it surfaces errors', function(assert) {
   this.render(hbs`{{ember-chimp label="Ember Chimp Input"
                                 placeholder="Email"
@@ -25,12 +24,11 @@ test('it surfaces errors', function(assert) {
 
   return wait()
     .then(() => {
-      // No Async Happens here as the form is blank.  There's actually no need for wait() here - but will be soon.
       assert.ok(emberChimp.hasClass('error'), "The component applied the error classname.");
       assert.equal(emberChimp.find('.chimp-says').text(), "Please enter a valid email.", "The Error was surfaced.");
     });
 });
-*/
+
 test('it works', function(assert) {
   this.set('seedEmail', seedEmail());
 
