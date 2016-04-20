@@ -72,7 +72,7 @@ export default Component.extend({
 
     if (get(this, 'isLoading')) { return; }
 
-    if (get(this, 'value').lenth === 0) { 
+    if (get(this, 'value').length === 0) { 
       this._triggerInvalid();
       return;
     }
