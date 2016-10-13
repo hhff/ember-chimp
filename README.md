@@ -21,7 +21,7 @@ Create a list in your Mailchimp account, grab its unique form action URL
 from the embeddable forms section, and then drop in the `ember-chimp` component 
 like so:
 
-```html
+```hbs
 {{ember-chimp formAction="//your.mailchimp.form.action"}}
 ```
 
@@ -39,7 +39,7 @@ The `ember-chimp` component is built to serve a wide variety of use cases:
 
 * **label & placeholder**
 
-```html
+```hbs
 {{ember-chimp formAction="//your.mailchimp.form.action"
               label="Join our Mailing List:" 
               placeholder="Email Address"}}
@@ -50,7 +50,7 @@ expect.  The label is always for the email input.
 
 * **buttonText & loadingText**
 
-```html
+```hbs
 {{ember-chimp formAction="//your.mailchimp.form.action"
               buttonText="Submit" 
               loadingText="Loading..."}}
@@ -77,7 +77,7 @@ emberChimpResponses: {
 ```
 Then in that controller's template:
 
-```html
+```hbs
 {{ember-chimp formAction="//your.mailchimp.form.action"
               responses=emberChimpResponses}}"
 ```
@@ -142,7 +142,7 @@ Will install the default `ember-chimp` template into your host app, at
 
 * **novalidate**
 
-```html
+```hbs
 {{ember-chimp formAction="//your.mailchimp.form.action"
               novalidate=false}}
 ```
@@ -155,9 +155,9 @@ like to use native browser validation, pass `false`.
 Pass a `didSubmitAction` name to the `ember-chimp` component to allow other 
 parts of your application to be aware of the component's status.
 
-```html
+```hbs
 {{ember-chimp formAction="//your.mailchimp.form.action"
-              action="emberChimpDidSubmit"}}
+              didSubmitAction="emberChimpDidSubmit"}}
 ```
 
 Then in your `controller` or `route`:
@@ -184,7 +184,7 @@ The `ember-chimp` component theoretically also posts other fields within the
 `form` element.  To add fields in the post payload to Mailchimp, run the
 `ember-chimp-template` generator, and add your custom fields, like so:
 
-```html
+```hbs
 <!-- app/templates/components/ember-chimp -->
 
 
