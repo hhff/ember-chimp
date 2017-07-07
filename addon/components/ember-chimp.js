@@ -13,8 +13,8 @@ const {
   A utility method for checking the end of a string
   for a certain value.
 
-  @method endsWith 
-  @param {String} string The string to check. 
+  @method endsWith
+  @param {String} string The string to check.
   @param {String} suffix The suffix to check the string for.
   @private
   @return {Boolean} A boolean that indicates whether the suffix is present.
@@ -22,7 +22,7 @@ const {
 function endsWith(string, suffix) {
   return string.indexOf(suffix, string.length - suffix.length) !== -1;
 }
-  
+
 /**
   The EmberChimp component provides a simple, flexible
   email list signup form, specifically for integrating
@@ -72,7 +72,7 @@ export default Component.extend({
 
     if (get(this, 'isLoading')) { return; }
 
-    if (get(this, 'value').length === 0) { 
+    if (get(this, 'value').length === 0) {
       this._triggerInvalid();
       return;
     }
@@ -81,17 +81,17 @@ export default Component.extend({
       chimpState: 'loading',
       chimpSays: get(this, 'loadingText')
     });
-    
+
     let request = this.makeRequest(formAction)
       .then(response => this.handleResponse(response))
-      .catch(() => this._triggerInvalid());
+      .catch(response => this._triggerInvalid(response));
 
     if (this.get('didSubmitAction')) { this.sendAction('didSubmitAction', request); }
   },
 
   /**
     An Overwritable Hook for building the request to Mailchimp.
-    Uses ember-ajax under the hood.  If you'd like to use a 
+    Uses ember-ajax under the hood.  If you'd like to use a
     different method to build this request, you can do so
     by overriding this method.
 
@@ -120,12 +120,13 @@ export default Component.extend({
       chimpState: response.result,
       chimpSays:  this._messageForResponse(response)
     });
+    return response;
   },
 
   /**
     Returns a user facing string for a response.
 
-    @method _messageForResponse 
+    @method _messageForResponse
     @private
     @param {Object} response The response from the Mailchimp API.
     @return {String} A string to display.
@@ -144,12 +145,13 @@ export default Component.extend({
     @method _triggerInvalid
     @private
   */
-  _triggerInvalid() {
+  _triggerInvalid(response) {
     if (this.isDestroyed) { return; }
     this.setProperties({
       chimpSays:  get(this, 'responses.invalidError'),
       chimpState: 'error'
     });
+    return response;
   },
 
   /**
