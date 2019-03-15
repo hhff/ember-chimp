@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ![Ember Chimp](https://raw.githubusercontent.com/hhff/ember-chimp/gh-pages/assets/share.jpg)
 
 # Ember Chimp
@@ -6,9 +7,17 @@
 
 A simple Ember CLI Component for integrating a Mailchimp List signup for tighly
 with your application.
+=======
+my-addon
+==============================================================================
 
-## Installation
+[Short description of the addon.]
+>>>>>>> f763a8d... message
 
+Installation
+------------------------------------------------------------------------------
+
+<<<<<<< HEAD
 `ember install ember-chimp`
 
 **Important:** Ember Chimp requires [Ember Ajax](https://github.com/ember-cli/ember-ajax) 
@@ -216,3 +225,48 @@ The data payload with be serialized like so:
 
 If anyone is using `ember-chimp` for this - please let me know whether it works.  
 I haven't needed to do this as of yet.
+=======
+```
+ember install my-addon
+```
+
+
+Usage
+------------------------------------------------------------------------------
+
+[Longer description of how to use the addon in apps.]
+
+
+Contributing
+------------------------------------------------------------------------------
+
+### Installation
+
+* `git clone <repository-url>`
+* `cd my-addon`
+* `npm install`
+
+### Linting
+
+* `npm run lint:hbs`
+* `npm run lint:js`
+* `npm run lint:js -- --fix`
+
+### Running tests
+
+* `ember test` – Runs the test suite on the current Ember version
+* `ember test --server` – Runs the test suite in "watch mode"
+* `ember try:each` – Runs the test suite against multiple Ember versions
+
+### Running the dummy application
+
+* `ember serve`
+* Visit the dummy application at [http://localhost:4200](http://localhost:4200).
+
+For more information on using ember-cli, visit [https://ember-cli.com/](https://ember-cli.com/).
+
+License
+------------------------------------------------------------------------------
+
+This project is licensed under the [MIT License](LICENSE.md).
+>>>>>>> f763a8d... message
