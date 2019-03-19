@@ -1,8 +1,9 @@
-import Ember from 'ember';
+import { resolve } from 'rsvp';
+import Service from '@ember/service';
 
-export default Ember.Service.extend({
+export default Service.extend({
   request() {
-    return Ember.RSVP.resolve({
+    return resolve({
       msg: "0 - Please enter a value",
       result: "error"
     });

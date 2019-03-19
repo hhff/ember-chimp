@@ -1,12 +1,12 @@
+import { equal } from '@ember/object/computed';
+import { get } from '@ember/object';
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
 import Ember from 'ember';
 import defaultResponses from 'ember-chimp/lib/default-responses';
 
 const {
-  get,
-  inject: { service },
-  computed,
-  Logger,
-  Component
+  Logger
 } = Ember;
 
 /**
@@ -22,7 +22,7 @@ const {
 function endsWith(string, suffix) {
   return string.indexOf(suffix, string.length - suffix.length) !== -1;
 }
-  
+
 /**
   The EmberChimp component provides a simple, flexible
   email list signup form, specifically for integrating
@@ -45,7 +45,7 @@ export default Component.extend({
   loadingText:       'Loading...',
   didSubmitAction:   null,
   responses:         defaultResponses,
-  isLoading:         computed.equal('chimpState', 'loading'),
+  isLoading:         equal('chimpState', 'loading'),
   ajax:              service(),
 
   actions: {
@@ -86,7 +86,7 @@ export default Component.extend({
       .then(response => this.handleResponse(response))
       .catch(() => this._triggerInvalid());
 
-    if (this.get('didSubmitAction')) { this.sendAction('didSubmitAction', request); }
+    if (this.didSubmitAction) { this.didSubmitAction(request); }
   },
 
   /**

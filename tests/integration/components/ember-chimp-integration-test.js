@@ -1,5 +1,6 @@
-import { moduleForComponent, test } from 'ember-qunit';
-import wait from 'ember-test-helpers/wait';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render, settled, find } from '@ember/test-helpers';
 import seedEmail from '../../helpers/seed-email';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -8,80 +9,85 @@ import ErrorAjaxServiceStub from '../../stubs/error-ember-chimp-ajax-stub';
 
 const testingFormAction = "//computer.us11.list-manage.com/subscribe/post?u=6e62b74d002f42a0e5350892e&amp;id=4e7effa6bd";
 
-moduleForComponent('ember-chimp', 'Integration | Component | chimp input', {
-  integration: true,
+module('Integration | Component | chimp input', function(hooks) {
+  setupRenderingTest(hooks);
 
-  beforeEach: function() {
-    this.set('testingFormAction', testingFormAction);
-  }
-});
-
-test('is can set buttonText', function(assert) {
-  this.render(hbs`{{ember-chimp formAction=testingFormAction
-                                buttonText="RSVP"}}`);
-
-  let emberChimp = this.$().find('form.ember-chimp');
-
-  assert.equal(emberChimp.find('button').text(), 'RSVP', 'The Button Text is set correctly.');
-});
-
-test('is bubbles the request promise', function(assert) {
-  this.register('service:ajax', SuccessAjaxServiceStub);
-
-  this.set('seedEmail', seedEmail());
-
-  this.render(hbs`{{ember-chimp formAction=testingFormAction
-                                value=seedEmail
-                                didSubmitAction="emberChimpDidSubmit"}}`);
-
-  let emberChimp = this.$().find('form.ember-chimp');
-  
-  this.on('emberChimpDidSubmit', function(request) {
-    assert.ok(request);
+  hooks.beforeEach(function() {
+    this.actions = {};
+    this.send = (actionName, ...args) => this.actions[actionName].apply(this, args);
   });
 
-  emberChimp.find('button').click();
-});
+  hooks.beforeEach(function() {
+    this.set('testingFormAction', testingFormAction);
+  });
 
-test('it surfaces errors', function(assert) {
-  this.register('service:ajax', ErrorAjaxServiceStub);
+  test('is can set buttonText', async function(assert) {
+    await render(hbs`{{ember-chimp formAction=testingFormAction
+                                  buttonText="RSVP"}}`);
 
-  this.render(hbs`{{ember-chimp label="Ember Chimp Input"
-                                placeholder="Email"
-                                formAction=testingFormAction
-                                buttonText="Submit"
-                                loadingText="Loading"}}`);
+    let emberChimp = this.$().find('form.ember-chimp');
 
-  let emberChimp = this.$().find('form.ember-chimp');
+    assert.equal(emberChimp.find('button').text(), 'RSVP', 'The Button Text is set correctly.');
+  });
 
-  assert.ok(emberChimp, "The component always has the ember-chimp classname.");
-  assert.ok(emberChimp.hasClass('idle'), "The component has the idle classname when idle.");
-  
-  emberChimp.find('button').click();
+  test('is bubbles the request promise', async function(assert) {
+    this.owner.register('service:ajax', SuccessAjaxServiceStub);
 
-  return wait()
-    .then(() => {
-      assert.ok(emberChimp.hasClass('error'), "The component applied the error classname.");
-      assert.equal(emberChimp.find('.chimp-says').text(), "Please enter a valid email.", "The Error was surfaced.");
-    });
-});
+    this.set('seedEmail', seedEmail());
 
-test('it works', function(assert) {
-  this.register('service:ajax', SuccessAjaxServiceStub);
+    this.actions.emberChimpDidSubmit = function(request) {
+      assert.ok(request);
+    };
 
-  this.set('seedEmail', seedEmail());
+    await render(hbs`{{ember-chimp formAction=testingFormAction
+                                  value=seedEmail
+                                  didSubmitAction=(action "emberChimpDidSubmit")}}`);
 
-  this.render(hbs`{{ember-chimp label="Ember Chimp Input"
-                                placeholder="Email"
-                                value=seedEmail
-                                formAction=testingFormAction}}`);
+    let emberChimp = this.$().find('form.ember-chimp');
+    
+    emberChimp.find('button').click();
+  });
 
-  let emberChimp = this.$().find('form.ember-chimp');
+  test('it surfaces errors', async function(assert) {
+    this.owner.register('service:ajax', ErrorAjaxServiceStub);
 
-  emberChimp.find('button').click();
-  return wait()
-    .then(() => {
-      assert.ok(this.$('form .chimp-says').text().length > 0, 'It shows a Success Message.');
-      assert.ok(this.$('form').hasClass('success'), 'It applies the Success Class Name.');
-    });
+    await render(hbs`{{ember-chimp label="Ember Chimp Input"
+                                  placeholder="Email"
+                                  formAction=testingFormAction
+                                  buttonText="Submit"
+                                  loadingText="Loading"}}`);
+
+    let emberChimp = this.$().find('form.ember-chimp');
+
+    assert.ok(emberChimp, "The component always has the ember-chimp classname.");
+    assert.ok(emberChimp.hasClass('idle'), "The component has the idle classname when idle.");
+    
+    emberChimp.find('button').click();
+
+    return settled()
+      .then(() => {
+        assert.ok(emberChimp.hasClass('error'), "The component applied the error classname.");
+        assert.equal(emberChimp.find('.chimp-says').text(), "Please enter a valid email.", "The Error was surfaced.");
+      });
+  });
+
+  test('it works', async function(assert) {
+    this.owner.register('service:ajax', SuccessAjaxServiceStub);
+
+    this.set('seedEmail', seedEmail());
+
+    await render(hbs`{{ember-chimp label="Ember Chimp Input"
+                                  placeholder="Email"
+                                  value=seedEmail
+                                  formAction=testingFormAction}}`);
+
+    let emberChimp = this.$().find('form.ember-chimp');
+
+    emberChimp.find('button').click();
+    return settled()
+      .then(() => {
+        assert.ok(find('form .chimp-says').textContent.length > 0, 'It shows a Success Message.');
+        assert.dom('form').hasClass('success', 'It applies the Success Class Name.');
+      });
+  });
 });
