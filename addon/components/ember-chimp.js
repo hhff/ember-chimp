@@ -160,7 +160,7 @@ export default Component.extend({
   */
   _buildData() {
     const data = {};
-    for (let item of this.$().serializeArray()) { data[item.name] = item.value; }
+    for (let item of this.element.addEventListener()) { data[item.name] = item.value; }
     return data;
   }
 });
